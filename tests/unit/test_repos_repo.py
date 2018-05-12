@@ -328,6 +328,19 @@ class TestRepository(helper.UnitHelper):
         self.instance.create_label(**data)
         assert self.session.post.called is False
 
+    def test_create_label_optional_description(self):
+        """Should accept an optional description for the label."""
+        data = {
+            'name': 'foo',
+            'color': 'fafafa',
+            'description': 'A nice description'
+        }
+        self.instance.create_label(**data)
+        self.post_called_with(
+            url_for('labels'),
+            data=data
+        )
+
     def test_create_milestone(self):
         """Verify the request for creating a milestone."""
         data = {

@@ -804,7 +804,7 @@ class _Repository(models.GitHubCore):
         return self._instance_or_null(users.Key, json)
 
     @requires_auth
-    def create_label(self, name, color):
+    def create_label(self, name, color, description=None):
         """Create a label for this repository.
 
         :param str name:
@@ -820,6 +820,8 @@ class _Repository(models.GitHubCore):
         json = None
         if name and color:
             data = {'name': name, 'color': color.strip('#')}
+            if description:
+                data['description'] = description
             url = self._build_url('labels', base_url=self._api)
             json = self._json(self._post(url, data=data), 201)
         return self._instance_or_null(label.Label, json)
